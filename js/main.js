@@ -11,6 +11,7 @@ function parseParams() {
     }
     return {
         "version": version,
+        "roomName": params.get("room"),
         "startDate": new Date(params.get("reftime")),
         "users": params.get("names").split(","),
         "tasks": params.get("tasks").split(","),
