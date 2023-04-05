@@ -11,13 +11,17 @@
 </head>
 
 <body>
-    <nav class="navbar navbar-light">
+    <div id="message" class="alert alert-light" role="alert">
+        Surprised you caught this loading message... Is javascript running?
+    </div>
+
+    <nav id="header" class="navbar navbar-light d-none">
         <div class="container">
-            <h1 class="navbar-brand">Chores - Room Name</h1>
+            <h1 class="navbar-brand">Chores - <span id="room-name">Room Name</span></h1>
         </div>
     </nav>
 
-    <div class="container">
+    <div id="content" class="container d-none">
 
         <h3>This week <span id="days-left" class="badge rounded-pill bg-secondary">3 days left</span></h3>
         <div id="current-tasks" class="row row-cols-3 row-cols-md-6 g-4 mb-4">
@@ -70,6 +74,36 @@
     </div>
     <script src="bootstrap/bootstrap.bundle.min.js"></script>
     <script src="js/main.js"></script>
+
+    <script>
+        let params;
+        const messageElement = document.getElementById("message");
+        try {
+            params = parseParams();
+            if (!validateParams(params)) {
+                throw new ParseError("What did you pass through as parameters? Something seems wrong.");
+            }
+        } catch (err) {
+            if (err instanceof ParseError) {
+                messageElement.innerHTML = `${err.message}`;
+            } else {
+                messageElement.innerHTML = `How did you break things? Let me know! Error: ${err.message}`;
+            }
+            console.error(`${err.message}`);
+            throw err;
+        }
+
+        document.getElementById("message").classList.add("d-none");
+        document.getElementById("header").classList.remove("d-none");
+        document.getElementById("content").classList.remove("d-none");
+
+        const assigner = new ChoreAssigner(params);
+        document.getElementById("room-name").innerHTML = params.roomName;
+        updateTasksContainer(Date.now(), assigner, document.getElementById("current-tasks"));
+        updateTasksContainer(Date.now()-assigner.cycleDuration, assigner, document.getElementById("previous-tasks"));
+        updateTasksContainer(Date.now()+assigner.cycleDuration, assigner, document.getElementById("next-tasks"));
+        updateDaysLeft(assigner.getDaysLeft(new Date()), document.getElementById("days-left"));
+    </script>
 </body>
 
 </html>

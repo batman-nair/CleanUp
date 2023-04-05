@@ -1,13 +1,22 @@
-const startDate = new Date(2023, 2, 6);
-const tasks = ["Kitchen", "Bathroom", "Floor"];
-const users = ["Arjun", "Akil", "Anand"];
-const ONE_WEEK = 604800000;
+const ONE_DAY = 86400000;
 
+class ParseError extends Error {
+    constructor(message) {
+        super(message);
+        this.name = this.constructor.name;
+    }
+}
 function parseParams() {
+    const paramsList = ["room", "reftime", "names", "tasks", "duration"];
     const params = new URLSearchParams(window.location.search);
     const version = parseInt(params.get("v"));
     if (version != 1) {
-        throw new Error("Invalid/Unsupported version string");
+        throw new ParseError(`You are living in the future, or in a glitch. Invalid/Unsupported version string '${version}'`);
+    }
+    for (const param of paramsList) {
+        if (!params.has(param)) {
+            throw new ParseError(`You look incomplete. Missing parameter '${param}' in URL.`)
+        }
     }
     return {
         "version": version,
@@ -27,9 +36,40 @@ function validateParams(params) {
     );
 }
 
-function weeksBetween(date1, date2) {
-    const duration = date1 > date2? date1 - date2 : date2 - date1;
-    return Math.floor( duration / ONE_WEEK);
+class ChoreAssigner {
+    constructor(data) {
+        this.startDate = data.startDate;
+        this.tasks = data.tasks;
+        this.users = data.users;
+        this.cycleDuration = data.duration * ONE_DAY;
+    }
+
+    getCycleIndex(date) {
+        if (date < this.startDate) {
+            throw new ParseError("Shouldn't be calculating indices from the past. Something wrong with dates.");
+        }
+        return Math.floor( (date - this.startDate) / this.cycleDuration);
+    }
+    getAssignmentForDate(date) {
+        const cycleIndex = this.getCycleIndex(date);
+        let tasksList = [], usersList = [];
+        for (let index = 0; index < this.tasks.length; index++) {
+            const task = this.tasks[index];
+            const user = this.users[(cycleIndex+index) % this.users.length];
+            tasksList.push(task);
+            usersList.push(user);
+        }
+        return {
+            "tasks": tasksList,
+            "users": usersList
+        };
+    }
+    getDaysLeft(date) {
+        const startDay = this.startDate.getDay();
+        const currentDay = date.getDay();
+        const daysLeft = startDay > currentDay ? startDay-currentDay-1 : startDay+6-currentDay;
+        return daysLeft;
+    }
 }
 
 function generateTaskHTML(task, user) {
@@ -41,25 +81,17 @@ function generateTaskHTML(task, user) {
     `;
     return content;
 }
-function updateTasksContainer(date, container) {
-    const numWeeks = weeksBetween(date, startDate);
+function updateTasksContainer(date, assigner, container) {
+    const assignment = assigner.getAssignmentForDate(date);
     container.innerHTML = '';
-
+    const tasks = assignment.tasks;
+    const users = assignment.users;
     for (let index = 0; index < tasks.length; index++) {
-        const task = tasks[index];
-        const user = users[(numWeeks+index) % users.length];
-        container.innerHTML += generateTaskHTML(task, user);
+        container.innerHTML += generateTaskHTML(tasks[index], users[index]);
     }
 }
 
-function getDaysLeft(date) {
-   const startDay = startDate.getDay();
-   const currentDay = date.getDay();
-   const daysLeft = startDay > currentDay ? startDay-currentDay-1 : startDay+6-currentDay;
-   return daysLeft;
-}
-function updateDaysLeft(date, container) {
-    const daysLeft = getDaysLeft(date);
+function updateDaysLeft(daysLeft, container) {
     if (daysLeft == 1) {
         container.innerHTML = `1 day left`;
     } else {
@@ -73,8 +105,3 @@ function updateDaysLeft(date, container) {
         container.classList.add("bg-danger");
     }
 }
-
-updateTasksContainer(Date.now(), document.getElementById("current-tasks"));
-updateTasksContainer(Date.now()-ONE_WEEK, document.getElementById("previous-tasks"));
-updateTasksContainer(Date.now()+ONE_WEEK, document.getElementById("next-tasks"));
-updateDaysLeft(new Date(), document.getElementById("days-left"));
