@@ -7,7 +7,7 @@ class ParseError extends Error {
     }
 }
 function parseParams() {
-    const paramsList = ["room", "reftime", "names", "tasks", "duration"];
+    const paramsList = ["room", "refdate", "names", "tasks", "duration"];
     const params = new URLSearchParams(window.location.search);
     const version = parseInt(params.get("v"));
     if (version != 1) {
@@ -21,7 +21,7 @@ function parseParams() {
     return {
         "version": version,
         "roomName": params.get("room"),
-        "startDate": new Date(params.get("reftime")),
+        "startDate": new Date(params.get("refdate")),
         "users": params.get("names").split(","),
         "tasks": params.get("tasks").split(","),
         "duration": parseInt(params.get("duration"))
