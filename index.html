@@ -1,0 +1,79 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+    <link rel="manifest" href="/site.webmanifest">
+    <link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
+    <meta name="msapplication-TileColor" content="#da532c">
+    <meta name="theme-color" content="#ffffff">
+    <link rel="stylesheet" href="bootstrap/bootstrap.min.css">
+    <link rel="stylesheet" href="css/main.css">
+    <title>CleanUp</title>
+</head>
+
+<body>
+<div class="container my-5">
+    <div class="row d-flex justify-content-center">
+        <div class="col-xl-7 col-lg-8 col-md-9 col-11 text-center">
+            <h3>CleanUp App</h3>
+            <p>
+                A site made to assign chores between roommates.<br>
+                <a href="/view.html?v=1&room=12.2.3&names=Arjun,Akil,Anand&tasks=Kitchen,Bathroom,Floor&reftime=2023,2,6&duration=7">Check out a sample schedule.</a>
+            </p>
+
+            <div class="card">
+                <h5 class="text-center mb-4">Create your schedule</h5>
+                <form class="form-card" onsubmit="event.preventDefault()">
+                    <div class="row mb-3">
+                        <label for="roomNameInput" class="form-label">Room Name</label>
+                        <div class="col-sm-6 mx-auto">
+                            <input type="text" class="form-control" id="roomNameInput" placeholder="Hello, Room">
+                        </div>
+                    </div>
+
+                    <div class="row mb-3 justify-content-between">
+                        <div class="col-sm-6 flex-column d-flex">
+                            <label for="roommatesNames" class="form-label px-3">Roommates</label>
+                            <input type="text" id="roommatesInput" class="form-control" name="roommatesNames" placeholder="John,Arjun,Mario" aria-describedby="commaHelp">
+                        </div>
+                        <div class="col-sm-6 flex-column d-flex">
+                            <label for="choresList" class="form-label px-3">Chores</label>
+                            <input type="text" id="choresInput" class="form-control" name="choresList" placeholder="Kitchen,Bathroom,Floor" aria-describedby="commaHelp">
+                        </div>
+                        <span id="commaHelp" class="form-text">Comma-separated values</span>
+                    </div>
+
+                    <div class="row mb-3 justify-content-between">
+                        <div class="col-sm-6 flex-column d-flex">
+                            <label for="startDate" class="form-label px-3">Start Date</label>
+                            <input type="text" id="startDateInput" class="form-control" name="startDate" placeholder="YYYY/MM/DD">
+                        </div>
+                        <div class="col-sm-6 flex-column d-flex">
+                            <label for="cycleDuration" class="form-label px-3">Cycle Duration</label>
+                            <div class="input-group">
+                                <input type="text" class="form-control" value="7" aria-describedby="durationAddon">
+                                <span class="input-group-text" id="durationAddon">days</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row mt-5 justify-content-around">
+                        <div class="form-group col-sm-6">
+                            <button class="btn btn-primary">Generate your link</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+
+        <a href="https://www.flaticon.com/free-icons/cleaning" title="cleaning icons">Cleaning icons created by monkik - Flaticon</a>
+        </div>
+    </div>
+</div>
+<script src="bootstrap/bootstrap.bundle.min.js"></script>
+</body>
+</html>
