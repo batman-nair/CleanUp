@@ -46,7 +46,7 @@ class ChoreAssigner {
 
     getCycleIndex(date) {
         if (date < this.startDate) {
-            throw new ParseError("Shouldn't be calculating indices from the past. Something wrong with dates.");
+            throw new ParseError(`Shouldn't be calculating indices from the past. Something wrong with dates. Date:${date} StartDate:${this.startDate}`);
         }
         return Math.floor( (date - this.startDate) / this.cycleDuration);
     }
@@ -82,6 +82,10 @@ function generateTaskHTML(task, user) {
     return content;
 }
 function updateTasksContainer(date, assigner, container) {
+    if (date < assigner.startDate) {
+        container.innerHTML = "<p>Nothing assigned.</p>";
+        return;
+    }
     const assignment = assigner.getAssignmentForDate(date);
     container.innerHTML = '';
     const tasks = assignment.tasks;
