@@ -5,3 +5,10 @@
     border: none;
     box-shadow: 0 6px 12px 0 rgba(0,0,0,0.2)
 }
+
+.footer-button {
+    display: block;
+    width: fit-content;
+    text-decoration: none;
+    margin: 1rem auto;
+}

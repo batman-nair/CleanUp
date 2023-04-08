@@ -28,19 +28,27 @@
     </nav>
 
     <div id="content" class="container d-none">
-        <h3>This week <span id="days-left" class="badge rounded-pill bg-secondary">3 days left</span></h3>
+        <h3>This cycle <span id="days-left" class="badge rounded-pill bg-secondary">3 days left</span></h3>
         <div id="current-tasks" class="row row-cols-3 row-cols-md-6 g-4 mb-4">
             <!-- Current tasks should be populated -->
         </div>
-        <h3>Last week</h3>
+        <h4>Last cycle</h4>
         <div id="previous-tasks" class="row row-cols-3 row-cols-md-6 g-4 mb-4">
             <!-- Previous tasks should be populated -->
         </div>
-        <h3>Next week</h3>
+        <h4>Next cycle</h4>
         <div id="next-tasks" class="row row-cols-3 row-cols-md-6 g-4 mb-4">
             <!-- Next tasks should be populated -->
         </div>
+
+        <footer class="mt-5">
+            <button onclick="copyFunction()" id="copy-button" class="col-auto btn btn-outline-info footer-button">Copy URL</button>
+            <a id="regenerate-button" class="btn btn-outline-dark footer-button">Generate another schedule</a>
+            <!-- <a href="https://github.com/batman-nair" class="btn btn-outline-secondary footer-button">Code on Github</a> -->
+        </footer>
     </div>
+
+
 
     <script src="bootstrap/bootstrap.bundle.min.js"></script>
     <script src="js/main.js"></script>
@@ -49,9 +57,7 @@
         const messageElement = document.getElementById("message");
         try {
             params = parseParams();
-            if (!validateParams(params)) {
-                throw new ParseError("What did you pass through as parameters? Something seems wrong.");
-            }
+            validateParams(params);
         } catch (err) {
             if (err instanceof ParseError) {
                 messageElement.innerHTML = `${err.message}`;
@@ -72,6 +78,17 @@
         updateTasksContainer(Date.now()-assigner.cycleDuration, assigner, document.getElementById("previous-tasks"));
         updateTasksContainer(Date.now()+assigner.cycleDuration, assigner, document.getElementById("next-tasks"));
         updateDaysLeft(assigner.getDaysLeft(new Date()), document.getElementById("days-left"));
+
+        function copyFunction() {
+            navigator.clipboard.writeText(window.location.href).then( () => {
+                copyButton.innerHTML = "Copied!";
+                copyButton.classList.add("active");
+            }, () => {
+                console.log("Error copying URL.")
+            });
+        };
+
+        document.getElementById("regenerate-button").href = "../" + window.location.search;
     </script>
 </body>
 </html>
