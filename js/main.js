@@ -28,12 +28,17 @@ function parseParams() {
     };
 }
 function validateParams(params) {
-    return (
-        params.startDate < Date.now() &&
-        params.users.length > 0 &&
-        params.tasks.length > 0 &&
-        params.duration > 0
-    );
+    const validators = {
+        startDate: (val) => val <= Date.now(),
+        users: (val) => val.length > 1,
+        tasks: (val) => val.length > 1,
+        duration: (val) => val > 0
+    };
+    for (const [paramName, validator] of Object.entries(validators)) {
+        if (!validator(params[paramName])) {
+            throw new ParseError(`What did you pass through as parameters? ${paramName} seems wrong. Got ${params[paramName]}`);
+        }
+    }
 }
 
 class ChoreAssigner {
@@ -41,14 +46,14 @@ class ChoreAssigner {
         this.startDate = data.startDate;
         this.tasks = data.tasks;
         this.users = data.users;
-        this.cycleDuration = data.duration * ONE_DAY;
+        this.cycleDuration = data.duration; // In days
     }
 
     getCycleIndex(date) {
         if (date < this.startDate) {
             throw new ParseError(`Shouldn't be calculating indices from the past. Something wrong with dates. Date:${date} StartDate:${this.startDate}`);
         }
-        return Math.floor( (date - this.startDate) / this.cycleDuration);
+        return Math.floor( (date - this.startDate) / (this.cycleDuration * ONE_DAY) );
     }
     getAssignmentForDate(date) {
         const cycleIndex = this.getCycleIndex(date);
@@ -65,10 +70,11 @@ class ChoreAssigner {
         };
     }
     getDaysLeft(date) {
-        const startDay = this.startDate.getDay();
-        const currentDay = date.getDay();
-        const daysLeft = startDay > currentDay ? startDay-currentDay-1 : startDay+6-currentDay;
-        return daysLeft;
+        const daysBetween = Math.floor((date - this.startDate) / ONE_DAY);
+        // const startDay = this.startDate.getDay();
+        // const currentDay = date.getDay();
+        // const daysLeft = startDay > currentDay ? startDay-currentDay-1 : startDay+6-currentDay;
+        return this.cycleDuration - (daysBetween % this.cycleDuration);
     }
 }
 
@@ -101,11 +107,11 @@ function updateDaysLeft(daysLeft, container) {
     } else {
         container.innerHTML = `${daysLeft} days left`;
     }
-    if (1 <= daysLeft && daysLeft < 4) {
+    if (1 < daysLeft && daysLeft <= 4) {
         container.classList.add("bg-warning");
         container.classList.add("text-dark");
     }
-    if (daysLeft < 1) {
+    else if (daysLeft <= 1) {
         container.classList.add("bg-danger");
     }
 }

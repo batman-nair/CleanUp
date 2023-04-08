@@ -23,44 +23,44 @@
             <h3>CleanUp App</h3>
             <p>
                 A site made to assign chores between roommates.<br>
-                <a href="/view.html?v=1&room=12.2.3&names=Arjun,Akil,Anand&tasks=Kitchen,Bathroom,Floor&refdate=2023,2,6&duration=7">Check out a sample schedule.</a>
+                <a href="/view.html?v=1&room=12.2.3&names=Arjun,Akil,Anand&tasks=Kitchen,Bathroom,Floor&refdate=2023/2/6&duration=7">Check out a sample schedule.</a>
             </p>
 
             <div class="card">
                 <h5 class="text-center mb-4">Create your schedule</h5>
                 <form class="form-card" action="/view.html">
                     <div class="row d-none">
-                        <label for="versionInput" class="form-label">Version Number</label>
-                        <input type="text" id="versionInput" class="form-control" name="v" value="1">
+                        <label for="vInput" class="form-label">Version Number</label>
+                        <input type="text" id="vInput" class="form-control" name="v" value="1">
                     </div>
                     <div class="row mb-3">
-                        <label for="roomNameInput" class="form-label">Room Name</label>
+                        <label for="roomInput" class="form-label">Room Name</label>
                         <div class="col-sm-6 mx-auto">
-                            <input type="text" class="form-control" id="roomNameInput" name="room" placeholder="Hello, Room">
+                            <input type="text" class="form-control" id="roomInput" name="room" placeholder="Hello, Room">
                         </div>
                     </div>
 
                     <div class="row mb-3 justify-content-between">
                         <div class="col-sm-6 flex-column d-flex">
-                            <label for="roommatesNames" class="form-label px-3">Roommates</label>
-                            <input type="text" id="roommatesInput" class="form-control" name="names" placeholder="John,Arjun,Mario" aria-describedby="commaHelp">
+                            <label for="namesInput" class="form-label px-3">Roommates</label>
+                            <input type="text" id="namesInput" class="form-control" name="names" placeholder="John,Arjun,Mario" aria-describedby="commaHelp">
                         </div>
                         <div class="col-sm-6 flex-column d-flex">
-                            <label for="choresList" class="form-label px-3">Chores</label>
-                            <input type="text" id="choresInput" class="form-control" name="tasks" placeholder="Kitchen,Bathroom,Floor" aria-describedby="commaHelp">
+                            <label for="tasksInput" class="form-label px-3">Chores</label>
+                            <input type="text" id="tasksInput" class="form-control" name="tasks" placeholder="Kitchen,Bathroom,Floor" aria-describedby="commaHelp">
                         </div>
                         <span id="commaHelp" class="form-text">Comma-separated values</span>
                     </div>
 
                     <div class="row mb-3 justify-content-between">
                         <div class="col-sm-6 flex-column d-flex">
-                            <label for="startDate" class="form-label px-3">Start Date</label>
-                            <input type="text" id="startDateInput" class="form-control" name="refdate" placeholder="YYYY/MM/DD">
+                            <label for="refdateInput" class="form-label px-3">Start Date</label>
+                            <input type="text" id="refdateInput" class="form-control" name="refdate" placeholder="YYYY/MM/DD">
                         </div>
                         <div class="col-sm-6 flex-column d-flex">
-                            <label for="cycleDuration" class="form-label px-3">Cycle Duration</label>
+                            <label for="durationInput" class="form-label px-3">Cycle Duration</label>
                             <div class="input-group">
-                                <input type="text" class="form-control" name="duration" value="7" aria-describedby="durationAddon">
+                                <input type="text" id="durationInput" class="form-control" name="duration" value="7" aria-describedby="durationAddon">
                                 <span class="input-group-text" id="durationAddon">days</span>
                             </div>
                         </div>
@@ -79,5 +79,10 @@
     </div>
 </div>
 <script src="bootstrap/bootstrap.bundle.min.js"></script>
+<script>
+    new URLSearchParams(window.location.search).forEach((x, y) => {
+        document.getElementById(y + "Input").value = x;
+        });
+</script>
 </body>
 </html>
