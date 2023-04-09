@@ -12,3 +12,10 @@
     text-decoration: none;
     margin: 1rem auto;
 }
+
+.helper-button {
+    border: none;
+    padding: 0;
+    background: none;
+    text-decoration: underline;
+}

@@ -56,6 +56,11 @@
                         <div class="col-sm-6 flex-column d-flex">
                             <label for="refdateInput" class="form-label px-3">Start Date</label>
                             <input type="text" id="refdateInput" class="form-control" name="refdate" placeholder="YYYY/MM/DD">
+                            <p class="form-text">
+                                <button type="button" class="link-secondary helper-button" onclick="setFormDate(new Date())">Today</button>,
+                                <button type="button" class="link-secondary helper-button" onclick="setDateToDay(1)">Monday</button>,
+                                <button type="button" class="link-secondary helper-button" onclick="setDateToDay(0)">Sunday</button>
+                            </p>
                         </div>
                         <div class="col-sm-6 flex-column d-flex">
                             <label for="durationInput" class="form-label px-3">Cycle Duration</label>
@@ -63,6 +68,10 @@
                                 <input type="text" id="durationInput" class="form-control" name="duration" value="7" aria-describedby="durationAddon">
                                 <span class="input-group-text" id="durationAddon">days</span>
                             </div>
+                            <p class="form-text">
+                                <button type="button" class="link-secondary helper-button" onclick="setFormDuration(7)">1 week</button>,
+                                <button type="button" class="link-secondary helper-button" onclick="setFormDuration(14)">2 weeks</button>,
+                            </p>
                         </div>
                     </div>
 
@@ -80,9 +89,31 @@
 </div>
 <script src="bootstrap/bootstrap.bundle.min.js"></script>
 <script>
+    const durationInput = document.getElementById("durationInput");
+    const dateInput = document.getElementById("refdateInput");
+    const today = new Date();
+
+    function setFormDuration(duration) {
+        durationInput.value = duration;
+    }
+    function setFormDate(date) {
+        dateInput.value = `${date.getFullYear()}/${date.getMonth()+1}/${date.getDate()}`;
+    }
+    function setDateToDay(targetDay) {
+        let dayDiff = today.getDay() - targetDay;
+        if (dayDiff < 0) {
+            dayDiff = dayDiff + 7; // date should be in the past
+        }
+        // Not that beautiful but contained, taken from https://stackoverflow.com/a/58828267/7196402
+        const targetDate = new Date(new Date().setDate(today.getDate() - dayDiff));
+        setFormDate(targetDate);
+    }
+
+    setFormDate(today);
+
     new URLSearchParams(window.location.search).forEach((x, y) => {
         document.getElementById(y + "Input").value = x;
-        });
+    });
 </script>
 </body>
 </html>
