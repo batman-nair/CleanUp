@@ -48,7 +48,7 @@
             <button onclick="copyFunction()" id="copy-button" class="col-auto btn btn-outline-info footer-button">Copy URL</button>
             <a id="regenerate-button" class="btn btn-outline-dark footer-button">Generate another schedule</a>
             <button id="install" class="col-auto btn btn-outline-info footer-button">Install as App</button>
-            <!-- <a href="https://github.com/batman-nair" class="btn btn-outline-secondary footer-button">Code on Github</a> -->
+            <a href="https://github.com/batman-nair/CleanUp" class="btn btn-outline-secondary footer-button">Code on Github</a>
         </footer>
     </div>
 
@@ -84,6 +84,7 @@
         updateTasksContainer(Date.now()+assigner.cycleDuration, assigner, document.getElementById("next-tasks"));
         updateDaysLeft(assigner.getDaysLeft(new Date()), document.getElementById("days-left"));
 
+        const copyButton = document.getElementById("copy-button");
         function copyFunction() {
             navigator.clipboard.writeText(window.location.href).then( () => {
                 copyButton.innerHTML = "Copied!";
