@@ -80,8 +80,8 @@
         const assigner = new ChoreAssigner(params);
         document.getElementById("room-name").innerHTML = params.roomName;
         updateTasksContainer(Date.now(), assigner, document.getElementById("current-tasks"));
-        updateTasksContainer(Date.now()-assigner.cycleDuration, assigner, document.getElementById("previous-tasks"));
-        updateTasksContainer(Date.now()+assigner.cycleDuration, assigner, document.getElementById("next-tasks"));
+        updateTasksContainer(Date.now()-assigner.cycleDuration*ONE_DAY, assigner, document.getElementById("previous-tasks"));
+        updateTasksContainer(Date.now()+assigner.cycleDuration*ONE_DAY, assigner, document.getElementById("next-tasks"));
         updateDaysLeft(assigner.getDaysLeft(new Date()), document.getElementById("days-left"));
 
         const copyButton = document.getElementById("copy-button");
