@@ -19,3 +19,9 @@
     background: none;
     text-decoration: underline;
 }
+
+@media all and (display-mode: standalone) {
+  #install {
+    display: none;
+  }
+}
