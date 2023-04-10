@@ -33,23 +33,23 @@
                 <form class="form-card" action="./view.html">
                     <div class="row d-none">
                         <label for="vInput" class="form-label">Version Number</label>
-                        <input type="text" id="vInput" class="form-control" name="v" value="1">
+                        <input type="text" id="vInput" class="form-control" name="v" value="1" required>
                     </div>
                     <div class="row mb-3">
                         <label for="roomInput" class="form-label">Room Name</label>
                         <div class="col-sm-6 mx-auto">
-                            <input type="text" class="form-control" id="roomInput" name="room" placeholder="Hello, Room">
+                            <input type="text" class="form-control" id="roomInput" name="room" placeholder="Hello, Room" required>
                         </div>
                     </div>
 
                     <div class="row mb-3 justify-content-between">
                         <div class="col-sm-6 flex-column d-flex">
                             <label for="namesInput" class="form-label px-3">Roommates</label>
-                            <input type="text" id="namesInput" class="form-control" name="names" placeholder="John,Arjun,Mario" aria-describedby="commaHelp">
+                            <input type="text" id="namesInput" class="form-control" name="names" placeholder="John,Arjun,Mario" aria-describedby="commaHelp" required>
                         </div>
                         <div class="col-sm-6 flex-column d-flex">
                             <label for="tasksInput" class="form-label px-3">Chores</label>
-                            <input type="text" id="tasksInput" class="form-control" name="tasks" placeholder="Kitchen,Bathroom,Floor" aria-describedby="commaHelp">
+                            <input type="text" id="tasksInput" class="form-control" name="tasks" placeholder="Kitchen,Bathroom,Floor" aria-describedby="commaHelp" required>
                         </div>
                         <span id="commaHelp" class="form-text">Comma-separated values</span>
                     </div>
@@ -57,7 +57,7 @@
                     <div class="row mb-3 justify-content-between">
                         <div class="col-sm-6 flex-column d-flex">
                             <label for="refdateInput" class="form-label px-3">Start Date</label>
-                            <input type="text" id="refdateInput" class="form-control" name="refdate" placeholder="YYYY/MM/DD">
+                            <input type="text" id="refdateInput" class="form-control" name="refdate" placeholder="YYYY/MM/DD" required>
                             <p class="form-text">
                                 <button type="button" class="link-secondary helper-button" onclick="setFormDate(new Date())">Today</button>,
                                 <button type="button" class="link-secondary helper-button" onclick="setDateToDay(1)">Monday</button>,
@@ -67,12 +67,12 @@
                         <div class="col-sm-6 flex-column d-flex">
                             <label for="durationInput" class="form-label px-3">Cycle Duration</label>
                             <div class="input-group">
-                                <input type="text" id="durationInput" class="form-control" name="duration" value="7" aria-describedby="durationAddon">
+                                <input type="text" id="durationInput" class="form-control" name="duration" value="7" aria-describedby="durationAddon" required>
                                 <span class="input-group-text" id="durationAddon">days</span>
                             </div>
                             <p class="form-text">
                                 <button type="button" class="link-secondary helper-button" onclick="setFormDuration(7)">1 week</button>,
-                                <button type="button" class="link-secondary helper-button" onclick="setFormDuration(14)">2 weeks</button>,
+                                <button type="button" class="link-secondary helper-button" onclick="setFormDuration(14)">2 weeks</button>
                             </p>
                         </div>
                     </div>
