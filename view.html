@@ -105,6 +105,12 @@
             "start_url": window.location.href,
             "icons": [
                 {
+                    "src": appURL+"maskable_icon_x512.png",
+                    "sizes": "512x512",
+                    "type": "image/png",
+                    "purpose": "any maskable"
+                },
+                {
                     "src": appURL+"android-chrome-192x192.png",
                     "sizes": "192x192",
                     "type": "image/png"
@@ -123,6 +129,13 @@
         const blob = new Blob([stringManifest], {type: 'application/json'});
         const manifestURL = URL.createObjectURL(blob);
         document.querySelector('#manifest-placeholder').setAttribute('href', manifestURL);
+
+        // Register service worker for PWA
+        if (!navigator.serviceWorker.controller) {
+            navigator.serviceWorker.register("sw.js").then(function(reg) {
+                console.log("Service worker has been registered for scope: " + reg.scope);
+            });
+        }
     </script>
 </body>
 </html>
